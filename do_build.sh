@@ -32,6 +32,11 @@ go() {
   # Building openwsman
   dpkg-source -x openwsman_2.6.5-0ubuntu6.dsc
   cd openwsman-2.6.5
+
+  # Apply our changes to build for Python 3
+  patch -p1 < /script/python3.patch
+  EDITOR=/bin/true dpkg-source --commit . build_on_python3
+
   mk-build-deps -i -t '/usr/bin/apt-get -o Debug::pkgProblemResolver=yes --no-install-recommends -y'
   rm *build-deps_*
   debuild -us -uc

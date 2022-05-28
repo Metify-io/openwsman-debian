@@ -11,6 +11,21 @@ index 305629b..244ad14 100644
  FIND_PACKAGE(PythonLibs)
  IF (PYTHON_LIBRARY)
    FIND_PACKAGE(PythonInterp REQUIRED)
+diff --git a/bindings/python/pywsman/setup.py b/bindings/python/pywsman/setup.py
+index e43f4dd..671f087 100644
+--- a/bindings/python/pywsman/setup.py
++++ b/bindings/python/pywsman/setup.py
+@@ -5,8 +5,9 @@ setup.py file for pywsman
+ """
+ 
+ from __future__ import print_function
+-from distutils.core import setup, Extension
+ from distutils.command.build import build as _build
++from setuptools import setup, Extension
++
+ import subprocess
+ import shutil
+ import sys
 diff --git a/debian/changelog b/debian/changelog
 index 8ed2f43..46eeda1 100644
 --- a/debian/changelog

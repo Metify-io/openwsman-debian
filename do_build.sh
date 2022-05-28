@@ -25,7 +25,7 @@ go() {
   rm *build-deps_*
   debuild -us -uc
 
-  cd ..
+  cd /src
 
   dpkg -i --no-debsig libcimcclient0-dev_2.2.8-0ubuntu2_amd64.deb libcimcclient0_2.2.8-0ubuntu2_amd64.deb libcimcclient0-dbgsym_2.2.8-0ubuntu2_amd64.deb
 
@@ -41,13 +41,23 @@ go() {
   rm *build-deps_*
   debuild -us -uc
 
-  cd ..
+  cd /src
 
   # Now, create the repo
-  cp -v *.deb /artifacts/
-  cd /artifacts
+  mkdir -p /artifacts/debs
+  cp -v *.deb /artifacts/debs/
+  cd /artifacts/debs
   dpkg-scanpackages -m . > Packages
   cat Packages | gzip -9c > Packages.gz
+
+  apt-get -y --no-install-recommends -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' install python3-wheel python3-setuptools
+
+  # Install packages so we can build Python Wheel
+  dpkg -i --no-debsig /artifacts/debs/{libwsman1,libopenwsman-dev,libwsman-client4,libwsman-curl-client-transport1,libwsman-server1,openwsman}_2.6.5-0ubuntu7_amd64.deb
+
+  cd /src/openwsman-2.6.5/bindings/python/pywsman
+  python3 setup.py bdist_wheel
+  cp dist/pywsman-2.6.5.post0-cp39-cp39-linux_x86_64.whl /artifacts/
 }
 
 

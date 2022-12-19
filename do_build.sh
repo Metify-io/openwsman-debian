@@ -68,5 +68,5 @@ if [[ "${1:-}" == "--go" ]]; then
 else
   docker run --rm -v $(pwd):/script -v $(pwd)/artifacts:/artifacts \
   -e owner_uid="$(id -u)" -e owner_gid="$(id -g)" \
-  debian:11.3-slim /script/do_build.sh --go
+  debian:11.5-slim /script/do_build.sh --go
 fi

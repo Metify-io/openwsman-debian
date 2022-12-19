@@ -58,11 +58,15 @@ go() {
   cd /src/openwsman-2.6.5/bindings/python/pywsman
   python3 setup.py bdist_wheel
   cp dist/pywsman-2.6.5.post0-cp39-cp39-linux_x86_64.whl /artifacts/
+
+  chown -R ${owner_uid}:${owner_gid} /artifacts
 }
 
 
 if [[ "${1:-}" == "--go" ]]; then
   go
 else
-  docker run --rm -v $(pwd):/script -v $(pwd)/artifacts:/artifacts debian:11.3-slim /script/do_build.sh --go
+  docker run --rm -v $(pwd):/script -v $(pwd)/artifacts:/artifacts \
+  -e owner_uid="$(id -u)" -e owner_gid="$(id -g)" \
+  debian:11.3-slim /script/do_build.sh --go
 fi

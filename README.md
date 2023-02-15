@@ -1,4 +1,4 @@
-# openwsman-debian
+# openwsman Builder for Debian 11
 This repository contains the code which builds openwsman for Debian 11.
 
 This also builds packages for sblim-sfcc since libcimcclient0-dev is a build-time dependency for openwsman.
